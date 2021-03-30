@@ -1,0 +1,13 @@
+﻿<Window x:Class="RideTheBusGUIClient.RuleBook"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RideTheBusGUIClient"
+        mc:Ignorable="d"
+        Title="RuleBook" Height="380.173" Width="458.621">
+    <Grid Margin="-18,0,18,0">
+        <TextBox x:Name="TextBox_Rules" HorizontalAlignment="Left" Height="285" Margin="44,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="394" IsEnabled="False"/>
+        <Button x:Name="Button_Close" Content="Close" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="207,311,0,0" Click="Button_Close_Click"/>
+    </Grid>
+</Window>

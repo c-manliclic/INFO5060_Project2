@@ -5,8 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RideTheBusGUIClient"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Ride The Bus" Height="450" Width="748">
     <Grid>
-        
+        <Button x:Name="Button_Black" Content="Black" HorizontalAlignment="Left" Margin="507,89,0,0" VerticalAlignment="Top" Width="75" Click="Button_Black_Click"/>
+        <Button x:Name="Button_Red" Content="Red" HorizontalAlignment="Left" Margin="607,89,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="Button_High" Content="High" HorizontalAlignment="Left" Margin="507,144,0,0" VerticalAlignment="Top" Width="75" IsEnabled="False"/>
+        <Button x:Name="Button_Low" Content="Low" HorizontalAlignment="Left" Margin="607,144,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.467,3.6" IsEnabled="False"/>
+        <Button x:Name="Button_In" Content="In" HorizontalAlignment="Left" Margin="507,202,0,0" VerticalAlignment="Top" Width="75" IsEnabled="False"/>
+        <Button x:Name="Button_Out" Content="Out" HorizontalAlignment="Left" Margin="607,202,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.467,3.6" IsEnabled="False"/>
+        <Button x:Name="Button_Face" Content="Face" HorizontalAlignment="Left" Margin="507,257,0,0" VerticalAlignment="Top" Width="75" IsEnabled="False"/>
+        <Button x:Name="Button_NotFace" Content="Not Face" HorizontalAlignment="Left" Margin="607,257,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.467,3.6" IsEnabled="False"/>
+        <Label x:Name="Label_Choices" Content="Choice" HorizontalAlignment="Left" Margin="572,58,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Label_CurrentCard" Content="Current Card" HorizontalAlignment="Left" Margin="310,69,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Label_LastCard" Content="Last Card" HorizontalAlignment="Left" Margin="101,69,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Label_WinStreak" Content="Winstreak" HorizontalAlignment="Left" Margin="507,326,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Label_WinStreakScore" Content="0" HorizontalAlignment="Left" Margin="607,326,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Label_Question" Content="Question" HorizontalAlignment="Left" Margin="226,309,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Label_QuestionText" Content="" HorizontalAlignment="Left" Margin="249,340,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Label_LastRank" Content="" HorizontalAlignment="Left" Margin="101,109,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Label_LastSuit" Content="" HorizontalAlignment="Left" Margin="101,157,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Label_CurrentRank" Content="" HorizontalAlignment="Left" Margin="310,109,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Label_CurrentSuit" Content="" HorizontalAlignment="Left" Margin="310,157,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="Button_RuleBook" Content="Rule Book" HorizontalAlignment="Left" Margin="640,10,0,0" VerticalAlignment="Top" Width="75" Click="Button_RuleBook_Click"/>
     </Grid>
 </Window>

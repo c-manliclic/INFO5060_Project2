@@ -24,5 +24,15 @@ namespace RideTheBusGUIClient
         {
             InitializeComponent();
         }
+
+        private void Button_Black_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_RuleBook_Click(object sender, RoutedEventArgs e)
+        {
+            new RuleBook().ShowDialog();
+        }
     }
 }
