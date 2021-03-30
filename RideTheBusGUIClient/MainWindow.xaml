@@ -27,5 +27,7 @@
         <Label x:Name="Label_CurrentRank" Content="" HorizontalAlignment="Left" Margin="310,109,0,0" VerticalAlignment="Top"/>
         <Label x:Name="Label_CurrentSuit" Content="" HorizontalAlignment="Left" Margin="310,157,0,0" VerticalAlignment="Top"/>
         <Button x:Name="Button_RuleBook" Content="Rule Book" HorizontalAlignment="Left" Margin="640,10,0,0" VerticalAlignment="Top" Width="75" Click="Button_RuleBook_Click"/>
+        <Label x:Name="Label_Status" Content="Status" HorizontalAlignment="Left" Margin="28,12,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Label_StatusText" Content="" HorizontalAlignment="Left" Margin="87,12,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

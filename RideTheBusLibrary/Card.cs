@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization; 
 
-namespace CardsLibrary
+namespace RideTheBusLibrary
 {
     public enum SuitID { Clubs, Diamonds, Hearts, Spades };
     public enum RankID { Ace, King, Queen, Jack, Ten, Nine, Eight, Seven, Six, Five, Four, Three, Two };
