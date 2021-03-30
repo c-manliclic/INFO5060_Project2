@@ -12,16 +12,10 @@ namespace RideTheBusLibrary
     {
         [DataMember]
         public int NumCards { get; private set; }
-        [DataMember]
-        public Card LastCard { get; private set; }
-        [DataMember]
-        public Card CurrentCard { get; private set; }
 
-        public CallbackInfo(int n, Card l, Card c)
+        public CallbackInfo(int n)
         {
             NumCards = n;
-            LastCard = l;
-            CurrentCard = c;
         }
     }
 }

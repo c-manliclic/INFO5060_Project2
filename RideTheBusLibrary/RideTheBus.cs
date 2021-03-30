@@ -20,8 +20,6 @@ namespace RideTheBusLibrary
     {
         [OperationContract]
         Card Draw();
-        Card LastCard { [OperationContract] get; }
-        Card CurrentCard { [OperationContract] get; }
         int NumCards { [OperationContract] get; }
         [OperationContract(IsOneWay = true)]
         void RegisterForCallbacks();
@@ -40,8 +38,6 @@ namespace RideTheBusLibrary
 
         private List<Card> cards = null;    // collection of cards
         private int cardIdx;                // index of the next card to be dealt
-        private Card currentCard;
-        private Card lastCard;
 
         private static uint objCount = 0;
         private uint objNum;
@@ -73,29 +69,12 @@ namespace RideTheBusLibrary
             return card;
         }
 
-        // Lets the client read or modify the number of decks in the shoe
-        public Card CurrentCard
-        {
-            get
-            {
-                return currentCard;
-            }
-        }
-
         // Lets the client read the number of cards remaining in the shoe
         public int NumCards
         {
             get
             {
                 return cards.Count - cardIdx;
-            }
-        }
-
-        public Card LastCard
-        {
-            get
-            {
-                return lastCard;
             }
         }
 
@@ -155,7 +134,7 @@ namespace RideTheBusLibrary
                 thisClient = OperationContext.Current.GetCallbackChannel<ICallback>();
 
             // Prepare the CallbackInfo parameter
-            CallbackInfo info = new CallbackInfo(cards.Count - cardIdx, lastCard, currentCard);
+            CallbackInfo info = new CallbackInfo(cards.Count - cardIdx);
 
             // Update all clients except thisClient
             foreach (ICallback cb in callbacks)
