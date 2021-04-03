@@ -162,7 +162,7 @@ namespace RideTheBusLibrary
         private void updateAllClients()
         {
             // Prepare the CallbackInfo parameter
-            CallbackInfo info = new CallbackInfo(cards.Count - cardIdx, gameOver);
+            CallbackInfo info = new CallbackInfo(cards.Count - cardIdx, callbacks.Keys.ElementAt(clientIndex), gameOver);
 
             foreach (ICallback cb in callbacks.Values)
                 cb.UpdateClient(info);

@@ -12,14 +12,18 @@ namespace RideTheBusLibrary
     {
         [DataMember]
         public int NumCards { get; private set; }
+         
+        [DataMember]
+        public int NextClient { get; private set; }
 
         [DataMember]
-        public bool gameOver { get; private set; }
+        public bool GameOver { get; private set; }
 
-        public CallbackInfo(int n, bool g)
+        public CallbackInfo(int numCards, int nextClient, bool gameOver)
         {
-            NumCards = n;
-            gameOver = g;
+            NumCards = numCards;
+            NextClient = nextClient;
+            GameOver = gameOver;
         }
     }
 }
