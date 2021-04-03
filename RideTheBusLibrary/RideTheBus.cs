@@ -33,8 +33,6 @@ namespace RideTheBusLibrary
         // Cards
         private List<Card> cards = null;    
         private int cardIdx;                
-        private static uint objCount = 0;
-        private uint objNum;
 
         // Players
         private Dictionary<int, ICallback> callbacks = null;
@@ -46,8 +44,6 @@ namespace RideTheBusLibrary
 
         public RideTheBus()
         {
-            objNum = ++objCount;
-            Console.WriteLine($"Creating Game object #{objNum}");
             cards = new List<Card>();
             nextClientId = 1;
             clientIndex = 0;
@@ -143,8 +139,6 @@ namespace RideTheBusLibrary
                     // For each rank..
                     foreach (RankID r in Enum.GetValues(typeof(RankID)))
                         cards.Add(new Card(s, r));
-
-            Console.WriteLine($"Shoe #{objNum} Shuffling");
 
             // Randomize the cards collection
             Random rng = new Random();
