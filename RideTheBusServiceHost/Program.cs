@@ -17,10 +17,10 @@ namespace RideTheBusServiceHost
             try
             {
                 // Register the service Address
-                servHost = new ServiceHost(typeof(RideTheBus), new Uri("net.tcp://localhost:13200/RideTheBusLibrary/"));
+                //servHost = new ServiceHost(typeof(RideTheBus), new Uri("net.tcp://localhost:13200/RideTheBusLibrary/"));
 
                 // Register the service Contract and Binding
-                servHost.AddServiceEndpoint(typeof(IRideTheBus), new NetTcpBinding(), "BusService");
+                //servHost.AddServiceEndpoint(typeof(IRideTheBus), new NetTcpBinding(), "BusService");
 
                 servHost = new ServiceHost(typeof(RideTheBus));
 

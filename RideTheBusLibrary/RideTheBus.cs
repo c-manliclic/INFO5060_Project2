@@ -67,8 +67,6 @@ namespace RideTheBusLibrary
                
             Card card = cards[cardIdx++];
 
-            Console.WriteLine($"Shoe #{objNum} dealing {cards[cardIdx].ToString()}");
-
             updateAllClients();
 
             return card;
