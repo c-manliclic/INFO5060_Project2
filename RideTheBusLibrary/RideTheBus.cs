@@ -49,6 +49,9 @@ namespace RideTheBusLibrary
             objNum = ++objCount;
             Console.WriteLine($"Creating Game object #{objNum}");
             cards = new List<Card>();
+            nextClientId = 1;
+            clientIndex = 0;
+            callbacks = new Dictionary<int, ICallback>();
             Populate();
         }
 
@@ -168,10 +171,14 @@ namespace RideTheBusLibrary
         private void updateAllClients()
         {
             // Prepare the CallbackInfo parameter
-            CallbackInfo info = new CallbackInfo(cards.Count - cardIdx, callbacks.Keys.ElementAt(clientIndex), gameOver);
+            if (callbacks.Count != 0)
+            {
+                CallbackInfo info = new CallbackInfo(cards.Count - cardIdx, callbacks.Keys.ElementAt(clientIndex), gameOver);
 
-            foreach (ICallback cb in callbacks.Values)
-                cb.UpdateClient(info);
+                foreach (ICallback cb in callbacks.Values)
+                    cb.UpdateClient(info);
+            }
+   
         }
 
     }

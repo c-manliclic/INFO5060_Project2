@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ServiceModel;
+using RideTheBusLibrary;
 
 namespace RideTheBusServiceHost
 {
@@ -16,12 +17,12 @@ namespace RideTheBusServiceHost
             try
             {
                 // Register the service Address
-                //servHost = new ServiceHost(typeof(Shoe), new Uri("net.tcp://localhost:13200/CardsLibrary/"));
+                servHost = new ServiceHost(typeof(RideTheBus), new Uri("net.tcp://localhost:13200/RideTheBusLibrary/"));
 
                 // Register the service Contract and Binding
-                //servHost.AddServiceEndpoint(typeof(IShoe), new NetTcpBinding(), "ShoeService");
+                servHost.AddServiceEndpoint(typeof(IRideTheBus), new NetTcpBinding(), "BusService");
 
-                //servHost = new ServiceHost(typeof(Shoe));
+                servHost = new ServiceHost(typeof(RideTheBus));
 
 
                 // Run the service

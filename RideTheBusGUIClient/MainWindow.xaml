@@ -29,5 +29,7 @@
         <Button x:Name="Button_RuleBook" Content="Rule Book" HorizontalAlignment="Left" Margin="640,10,0,0" VerticalAlignment="Top" Width="75" Click="Button_RuleBook_Click"/>
         <Label x:Name="Label_Status" Content="Status" HorizontalAlignment="Left" Margin="28,12,0,0" VerticalAlignment="Top"/>
         <Label x:Name="Label_StatusText" Content="" HorizontalAlignment="Left" Margin="87,12,0,0" VerticalAlignment="Top"/>
+        <Label Content="Cards Left" HorizontalAlignment="Left" Margin="507,291,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.184,0.346"/>
+        <TextBox x:Name="TextBox_CardsLeft" HorizontalAlignment="Left" Height="23" Margin="607,294,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" IsEnabled="False"/>
     </Grid>
 </Window>
