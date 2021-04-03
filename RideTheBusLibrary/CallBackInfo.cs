@@ -13,9 +13,13 @@ namespace RideTheBusLibrary
         [DataMember]
         public int NumCards { get; private set; }
 
-        public CallbackInfo(int n)
+        [DataMember]
+        public bool gameOver { get; private set; }
+
+        public CallbackInfo(int n, bool g)
         {
             NumCards = n;
+            gameOver = g;
         }
     }
 }
