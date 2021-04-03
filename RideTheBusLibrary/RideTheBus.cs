@@ -49,7 +49,7 @@ namespace RideTheBusLibrary
             objNum = ++objCount;
             Console.WriteLine($"Creating Game object #{objNum}");
             cards = new List<Card>();
-            populate();
+            Populate();
         }
 
         /*------------------ Public properties and methods -----------------*/
@@ -133,7 +133,7 @@ namespace RideTheBusLibrary
 
 
         /*------------------------- Helper methods -------------------------*/
-        private void populate()
+        private void Populate()
         {
             // For each deck in numDecks...
             for (int d = 0; d < 1; ++d)
@@ -152,6 +152,12 @@ namespace RideTheBusLibrary
             // Reset the cards index
             cardIdx = 0;
 
+            updateAllClients();
+        }
+
+        public void NextPlayer()
+        {
+            clientIndex = ++clientIndex % callbacks.Count;
             updateAllClients();
         }
 
