@@ -40,7 +40,9 @@ namespace RideTheBusLibrary
         /*------------------------ Member Variables ------------------------*/
         // Cards
         private List<Card> cards = null;    
-        private int cardIdx;                
+        private int cardIdx;
+        private Card CurrentCard;
+        private Card LastCard;
 
         // Players
         private Dictionary<int, ICallback> callbacks = null;
@@ -69,9 +71,14 @@ namespace RideTheBusLibrary
                 gameOver = true;
                 return null;
             }
-               
-            Card card = cards[cardIdx++];
+            
+            if(CurrentCard != null)
+            {
+                LastCard = CurrentCard;
+            }
 
+            Card card = cards[cardIdx++];
+            CurrentCard = card;
             updateAllClients();
 
             return card;
@@ -315,7 +322,7 @@ namespace RideTheBusLibrary
             // Prepare the CallbackInfo parameter
             if (callbacks.Count != 0)
             {
-                CallbackInfo info = new CallbackInfo(cards.Count - cardIdx, callbacks.Keys.ElementAt(clientIndex), winstreak, gameOver);
+                CallbackInfo info = new CallbackInfo(cards.Count - cardIdx, CurrentCard, LastCard, callbacks.Keys.ElementAt(clientIndex), winstreak, gameOver);
 
                 foreach (ICallback cb in callbacks.Values)
                     cb.UpdateClient(info);

@@ -12,7 +12,10 @@ namespace RideTheBusLibrary
     {
         [DataMember]
         public int NumCards { get; private set; }
-         
+        [DataMember]
+        public Card CurrentCard { get; private set; }
+        [DataMember]
+        public Card LastCard { get; private set; }
         [DataMember]
         public int NextClient { get; private set; }
 
@@ -22,9 +25,11 @@ namespace RideTheBusLibrary
         [DataMember]
         public bool GameOver { get; private set; }
 
-        public CallbackInfo(int numCards, int nextClient, int winStreak, bool gameOver)
+        public CallbackInfo(int numCards, Card currentCard, Card lastCard, int nextClient, int winStreak, bool gameOver)
         {
             NumCards = numCards;
+            CurrentCard = currentCard;
+            LastCard = lastCard;
             NextClient = nextClient;
             WinStreak = winStreak;
             GameOver = gameOver;

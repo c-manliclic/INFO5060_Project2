@@ -143,8 +143,21 @@ namespace RideTheBusGUIClient
             {
                 // Update gui
                 Label_CardsLeft.Content = info.NumCards.ToString();
+
+                currentCard = info.CurrentCard;
+                Label_CurrentRank.Content = currentCard.Rank;
+                Label_CurrentSuit.Content = currentCard.Suit;
+
+                if (info.LastCard != null)
+                {
+                    lastCard = info.LastCard;
+                    Label_LastRank.Content = lastCard.Rank;
+                    Label_LastSuit.Content = lastCard.Suit;
+                }
+
                 Label_WinStreakScore.Content = info.WinStreak.ToString();
                 gameOver = info.GameOver;
+
                 switch(info.WinStreak)
                 {
                     case 0:
@@ -179,7 +192,7 @@ namespace RideTheBusGUIClient
                     MessageBox.Show("You Won!", "Game Over");
                 }
 
-                if (info.NumCards == 0)
+                if (gameOver && info.NumCards == 0)
                 {
                     DisableAllButtons();
                     MessageBox.Show("You Lose!", "Game Over");
