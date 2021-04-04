@@ -19,11 +19,19 @@ namespace RideTheBusLibrary
         [OperationContract]
         Card Draw();
         int NumCards { [OperationContract] get; }
+        int Winstreak { [OperationContract] get; }
         [OperationContract]
         int JoinGame();
         [OperationContract(IsOneWay = true)]
         void LeaveGame();
-
+        [OperationContract]
+        void PlayBlackRed(Card current, string color);
+        [OperationContract]
+        void PlayHighLow(Card current, Card last, string choice);
+        [OperationContract]
+        void PlayInOut(Card next, Card current, Card last, string choice);
+        [OperationContract]
+        void PlayFaceNotFace(Card current, string choice);
     }
 
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
@@ -38,6 +46,7 @@ namespace RideTheBusLibrary
         private Dictionary<int, ICallback> callbacks = null;
         private int nextClientId;                               
         private int clientIndex;
+        private int winstreak;
         private bool gameOver = false;
 
         /*-------------------------- Constructors --------------------------*/
@@ -74,6 +83,14 @@ namespace RideTheBusLibrary
             get
             {
                 return cards.Count - cardIdx;
+            }
+        }
+
+        public int Winstreak
+        {
+            get
+            {
+                return winstreak;
             }
         }
 
@@ -128,6 +145,139 @@ namespace RideTheBusLibrary
             }
         }
 
+        public void PlayBlackRed(Card current, string color)
+        {
+            switch(color)
+            {
+                case "black":
+                    if (current.Suit == SuitID.Clubs || current.Suit == SuitID.Spades)
+                    {
+                        winstreak++;
+                    }
+                    else
+                    {
+                        winstreak = 0;
+                    }
+                    break;
+                case "red":
+                    if (current.Suit == SuitID.Diamonds || current.Suit == SuitID.Hearts)
+                    {
+                        winstreak++;
+                    }
+                    else
+                    {
+                        winstreak = 0;
+                    }
+                    break;
+            }
+
+            updateAllClients();
+        }
+
+        public void PlayHighLow(Card current, Card last, string choice)
+        {
+            switch(choice)
+            {
+                case "high":
+                    // card rank is ace high where ace = 0
+                    if (current.Rank <= last.Rank)
+                    {
+                        winstreak++;
+                    }
+                    else
+                    {
+                        winstreak = 0;
+                    }
+                    break;
+                case "low":
+                    // card rank is ace high where ace = 0
+                    if (current.Rank >= last.Rank)
+                    {
+                        winstreak++;
+                    }
+                    else
+                    {
+                        winstreak = 0;
+                    }
+                    break;
+            }
+
+            updateAllClients();
+        }
+
+        public void PlayInOut(Card next, Card current, Card last, string choice)
+        {
+            Card higher;
+            Card lower;
+
+            if (current.Rank >= last.Rank)
+            {
+                higher = current;
+                lower = last;
+            }
+            else
+            {
+                higher = last;
+                lower = current;
+            }
+
+            switch(choice)
+            {
+                case "in":
+                    if(next.Rank >= lower.Rank && next.Rank <= higher.Rank)
+                    {
+                        winstreak++;
+                    }
+                    else
+                    {
+                        winstreak = 0;
+                    }
+                    break;
+                case "out":
+                    if (next.Rank < lower.Rank || next.Rank > higher.Rank)
+                    {
+                        winstreak++;
+                    }
+                    else
+                    {
+                        winstreak = 0;
+                    }
+                    break;
+            }
+
+            updateAllClients();
+        }
+
+        public void PlayFaceNotFace(Card current, string choice)
+        {
+            switch (choice)
+            {
+                case "face":
+                    if (current.Rank == RankID.Jack || current.Rank == RankID.Queen|| current.Rank == RankID.King)
+                    {
+                        winstreak++;
+                        gameOver = true;
+                    }
+                    else
+                    {
+                        winstreak = 0;
+                    }
+                    break;
+                case "notface":
+                    if (!(current.Rank == RankID.Jack || current.Rank == RankID.Queen || current.Rank == RankID.King))
+                    {
+                        winstreak++;
+                        gameOver = true;
+                    }
+                    else
+                    {
+                        winstreak = 0;
+                    }
+                    break;
+            }
+
+            updateAllClients();
+        }
 
         /*------------------------- Helper methods -------------------------*/
         private void Populate()
@@ -165,7 +315,7 @@ namespace RideTheBusLibrary
             // Prepare the CallbackInfo parameter
             if (callbacks.Count != 0)
             {
-                CallbackInfo info = new CallbackInfo(cards.Count - cardIdx, callbacks.Keys.ElementAt(clientIndex), gameOver);
+                CallbackInfo info = new CallbackInfo(cards.Count - cardIdx, callbacks.Keys.ElementAt(clientIndex), winstreak, gameOver);
 
                 foreach (ICallback cb in callbacks.Values)
                     cb.UpdateClient(info);
