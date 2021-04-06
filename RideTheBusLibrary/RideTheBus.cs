@@ -47,6 +47,7 @@ namespace RideTheBusLibrary
         private int cardIdx;
         private Card CurrentCard;
         private Card LastCard;
+        private Card DiscardedCard;
 
         // Players
         private Dictionary<int, ICallback> callbacks = null;
@@ -74,8 +75,13 @@ namespace RideTheBusLibrary
             {
                 gameOver = true;
             }
-            
-            if(CurrentCard != null)
+
+            if(LastCard != null)
+            {
+                DiscardedCard = LastCard;
+            }    
+
+            if (CurrentCard != null)
             {
                 LastCard = CurrentCard;
             }
@@ -331,7 +337,7 @@ namespace RideTheBusLibrary
         // the update since it will already be updated directly by the call.
         private void updateAllClients()
         {
-            CallbackInfo info = new CallbackInfo(cards.Count - cardIdx, CurrentCard, LastCard, callbacks.Keys.ElementAt(clientIndex), winstreak, gameOver);
+            CallbackInfo info = new CallbackInfo(cards.Count - cardIdx, CurrentCard, LastCard, DiscardedCard, callbacks.Keys.ElementAt(clientIndex), winstreak, gameOver);
 
             foreach (ICallback cb in callbacks.Values)
                 cb.UpdateClient(info);

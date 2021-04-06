@@ -175,6 +175,11 @@ namespace RideTheBusGUIClient
                     Label_LastSuit.Content = lastCard.Suit;
                 }
 
+                if (info.DiscardedCard != null)
+                {
+                    discardedCard = info.DiscardedCard;
+                }
+
                 Label_WinStreakScore.Content = info.WinStreak.ToString();
                 gameOver = info.GameOver;
 
@@ -261,13 +266,23 @@ namespace RideTheBusGUIClient
 
                 if (gameOver && int.Parse(Label_WinStreakScore.Content.ToString()) == 4)
                 {
-                    MessageBox.Show("You Won!", "Game Over");
+                    DisableAllButtons();
+                    MessageBoxResult result = MessageBox.Show("You Won!", "Game Over");
+                    if (result == MessageBoxResult.OK)
+                    {
+                        this.Close();
+                    }
                 }
 
                 if (gameOver && info.NumCards == 0 && int.Parse(Label_WinStreakScore.Content.ToString()) != 4)
                 {
                     DisableAllButtons();
-                    MessageBox.Show("You Lose!", "Game Over");
+                    MessageBoxResult result = MessageBox.Show("You Lose!", "Game Over");
+                    
+                    if (result == MessageBoxResult.OK)
+                    {
+                        this.Close();
+                    }
                 }
             }
             else
