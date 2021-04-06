@@ -1,6 +1,8 @@
 ﻿/* Programmers: Colin Manliclic, Zina Long
  * Date:        April 9, 2021
- * Purpose:
+ * Purpose:     Implements a WCF service host for the RideTheBus service in 
+ *              RideTheBusLibrary.dll. Also uses an administrative endpoint which is configured
+ *              in the project's App.config file.
  */
 using System;
 using System.Collections.Generic;
@@ -27,7 +29,6 @@ namespace RideTheBusServiceHost
                 //servHost.AddServiceEndpoint(typeof(IRideTheBus), new NetTcpBinding(), "BusService");
 
                 servHost = new ServiceHost(typeof(RideTheBus));
-
 
                 // Run the service
                 servHost.Open();
