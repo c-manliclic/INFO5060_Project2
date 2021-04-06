@@ -1,4 +1,8 @@
-﻿using System;
+﻿/* Programmers: Colin Manliclic, Zina Long
+ * Date:        April 9, 2021
+ * Purpose:
+ */
+using System;
 using System.Windows;
 using System.ServiceModel;
 using System.Threading;
