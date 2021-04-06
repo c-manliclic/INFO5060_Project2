@@ -1,6 +1,6 @@
 ﻿/* Programmers: Colin Manliclic, Zina Long
  * Date:        April 9, 2021
- * Purpose:
+ * Purpose:     GUI for the ride the bus client
  */
 using System;
 using System.Windows;
@@ -24,7 +24,6 @@ namespace RideTheBusGUIClient
         Card discardedCard;
         private static int clientId = 0;
         private static int activeClientId = 1;
-        //private static CBObject cbObj = new CBObject();
         private static EventWaitHandle waitHandle = new EventWaitHandle(false, EventResetMode.ManualReset);
         private static bool gameOver = false;
 
@@ -41,53 +40,99 @@ namespace RideTheBusGUIClient
             Label_CardsLeft.Content = bus.NumCards.ToString();
             Label_WinStreakScore.Content = bus.Winstreak.ToString();
         }
+
+        /// <summary>
+        /// shows the rule book
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_RuleBook_Click(object sender, RoutedEventArgs e)
         {
             new RuleBook().ShowDialog();
         }
 
+        /// <summary>
+        /// plays the game Black/Red with choice of black
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Black_Click(object sender, RoutedEventArgs e)
         {
             DrawAndUpdateLabels();
             bus.PlayBlackRed(currentCard, "black");
         }
 
+        /// <summary>
+        /// plays the game Black/Red with choice of red
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Red_Click(object sender, RoutedEventArgs e)
         {
             DrawAndUpdateLabels();
             bus.PlayBlackRed(currentCard, "red");
         }
 
+        /// <summary>
+        /// plays the game High/Low with choice of high
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_High_Click(object sender, RoutedEventArgs e)
         {
             DrawAndUpdateLabels();
             bus.PlayHighLow(currentCard,lastCard,"high");
         }
 
+        /// <summary>
+        /// plays the game High/Low with choice of low
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Low_Click(object sender, RoutedEventArgs e)
         {
             DrawAndUpdateLabels();
             bus.PlayHighLow(currentCard, lastCard, "low");
         }
 
+        /// <summary>
+        /// plays the game In/Out with choice of In
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_In_Click(object sender, RoutedEventArgs e)
         {
             DrawAndUpdateLabels();
             bus.PlayInOut(currentCard, lastCard, discardedCard, "in");
         }
 
+        /// <summary>
+        /// plays the game In/Out with choice of Out
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Out_Click(object sender, RoutedEventArgs e)
         {
             DrawAndUpdateLabels();
             bus.PlayInOut(currentCard, lastCard, discardedCard, "out");
         }
 
+        /// <summary>
+        /// plays the game Face/Not Face with choice of Face
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Face_Click(object sender, RoutedEventArgs e)
         {
             DrawAndUpdateLabels();
             bus.PlayFaceNotFace(currentCard, "face");
         }
 
+        /// <summary>
+        /// plays the game Face/Not Face with choice of Not Face
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_NotFace_Click(object sender, RoutedEventArgs e)
         {
             DrawAndUpdateLabels();
@@ -96,11 +141,15 @@ namespace RideTheBusGUIClient
 
         private delegate void ClientUpdateDelegate(CallbackInfo info);
 
+        /// <summary>
+        /// updates the clients gui based on callback information
+        /// </summary>
+        /// <param name="info"></param>
         public void UpdateClient(CallbackInfo info)
         {
             if(System.Threading.Thread.CurrentThread == this.Dispatcher.Thread)
             {
-                // Update gui
+                // Update gui using the callback information
                 Label_CardsLeft.Content = info.NumCards.ToString();
 
                 if (info.CurrentCard != null)
@@ -138,6 +187,7 @@ namespace RideTheBusGUIClient
                 }
 
                 string choice;
+                // based on winstreak updates gui
                 switch(info.WinStreak)
                 {
                     case 0:
@@ -204,6 +254,7 @@ namespace RideTheBusGUIClient
 
                 }
 
+                // if game over is true and winstreak is equal to 4 the player/players wins
                 if (gameOver && int.Parse(Label_WinStreakScore.Content.ToString()) == 4)
                 {
                     DisableAllButtons();
@@ -214,7 +265,8 @@ namespace RideTheBusGUIClient
                     }
                 }
 
-                if (gameOver && info.NumCards == 0 && int.Parse(Label_WinStreakScore.Content.ToString()) != 4)
+                // if game over is true and winstreak is not equal to 4 the player/players wins
+                if (gameOver && int.Parse(Label_WinStreakScore.Content.ToString()) != 4)
                 {
                     DisableAllButtons();
                     MessageBoxResult result = MessageBox.Show("You Lose!", "Game Over");
@@ -231,6 +283,9 @@ namespace RideTheBusGUIClient
             }
         }
 
+        /// <summary>
+        /// Draws a card from bus client and updates gui with newly drawn cards
+        /// </summary>
         private void DrawAndUpdateLabels()
         {
             if (lastCard != null)
@@ -246,6 +301,7 @@ namespace RideTheBusGUIClient
             Label_CurrentCardText.Content = $"{currentCard.Rank} of {currentCard.Suit}";
         }
 
+        // disable all the buttons to play the game
         private void DisableAllButtons()
         {
             Button_Black.IsEnabled = false;
@@ -258,6 +314,11 @@ namespace RideTheBusGUIClient
             Button_NotFace.IsEnabled = false;
         }
 
+        /// <summary>
+        /// if player closes the window, calls the ride the bus objects leave method
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             bus?.LeaveGame();
