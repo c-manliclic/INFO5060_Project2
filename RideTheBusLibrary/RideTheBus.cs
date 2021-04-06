@@ -30,13 +30,13 @@ namespace RideTheBusLibrary
         int JoinGame();
         [OperationContract(IsOneWay = true)]
         void LeaveGame();
-        [OperationContract]
+        [OperationContract(IsOneWay = true)]
         void PlayBlackRed(Card current, string color);
-        [OperationContract]
+        [OperationContract(IsOneWay = true)]
         void PlayHighLow(Card current, Card last, string choice);
-        [OperationContract]
+        [OperationContract(IsOneWay = true)]
         void PlayInOut(Card next, Card current, Card last, string choice);
-        [OperationContract]
+        [OperationContract(IsOneWay = true)]
         void PlayFaceNotFace(Card current, string choice);
     }
 
