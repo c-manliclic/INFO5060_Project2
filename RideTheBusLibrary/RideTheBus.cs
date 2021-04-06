@@ -1,6 +1,6 @@
 ﻿/* Programmers: Colin Manliclic, Zina Long
  * Date:        April 9, 2021
- * Purpose:
+ * Purpose:     Facilitates game logic of the ride the bus and uses WCF service/contracts to callback to the client.
  */
 using System;
 using System.Collections.Generic;
@@ -11,12 +11,14 @@ using System.Threading.Tasks;
 
 namespace RideTheBusLibrary
 {
+    // Client callback contract
     public interface ICallback
     {
         [OperationContract(IsOneWay = true)]
         void UpdateClient(CallbackInfo info);
     }
 
+    // WCF service contract
     [ServiceContract(CallbackContract = typeof(ICallback))]
     public interface IRideTheBus
     {
@@ -38,6 +40,7 @@ namespace RideTheBusLibrary
         void PlayFaceNotFace(Card current, string choice);
     }
 
+    // Service Implemenation 
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class RideTheBus : IRideTheBus
     {
@@ -94,7 +97,7 @@ namespace RideTheBusLibrary
             return card;
         }
 
-        // Lets the client read the number of cards remaining in the shoe
+        // Lets the client read the number of cards remaining in the game
         public int NumCards
         {
             get
@@ -103,6 +106,7 @@ namespace RideTheBusLibrary
             }
         }
 
+        // Lets the client read the number of wins in a row (4 wins)
         public int Winstreak
         {
             get
@@ -129,9 +133,7 @@ namespace RideTheBusLibrary
             // Register this client and return a new client id
             callbacks.Add(nextClientId, cb);
 
-            // Only client connected so far so release this client to do the first "count"
-            // (necessary because a callback will only happen when a "count" is performed 
-            // and a callback is the mechanism used to release a client)
+            // Update the client
             updateAllClients();
        
             return nextClientId++;
@@ -155,11 +157,11 @@ namespace RideTheBusLibrary
                 // Remove this client from receiving callbacks from the service
                 callbacks.Remove(id);
 
-                // Make sure the counting sequence isn't disrupted by removing this client
+                // Make sure the player turn isn't disrupted by removing this client
                 if (i == clientIndex && callbacks.Count != 0)
                 {
-                    // This client was supposed to count next but is exiting the game
-                    // Need to signal the next client to count instead 
+                    // This client was supposed to be next but is exiting the game
+                    // Need to signal the next client to play instead 
                     NextPlayer();
                     updateAllClients();
                 } 
@@ -172,6 +174,7 @@ namespace RideTheBusLibrary
             }
         }
 
+        // ServiceContract that determines if the player guessed correct on Black or Red with the drawn card and choice
         public void PlayBlackRed(Card current, string color)
         {
             switch(color)
@@ -201,6 +204,7 @@ namespace RideTheBusLibrary
             updateAllClients();
         }
 
+        // ServiceContract that determines if the player guessed correct on High or Low with the drawn card and choice
         public void PlayHighLow(Card current, Card last, string choice)
         {
             switch(choice)
@@ -232,6 +236,7 @@ namespace RideTheBusLibrary
             updateAllClients();
         }
 
+        // ServiceContract that determines if the player guessed correct on In or Out with the drawn card and choice
         public void PlayInOut(Card next, Card current, Card last, string choice)
         {
             Card higher;
@@ -275,6 +280,7 @@ namespace RideTheBusLibrary
             updateAllClients();
         }
 
+        // ServiceContract that determines if the player guessed correct on Face or Not Face with the drawn card and choice
         public void PlayFaceNotFace(Card current, string choice)
         {
             switch (choice)
@@ -325,15 +331,13 @@ namespace RideTheBusLibrary
             cardIdx = 0;
         }
 
+        // Change to next player 
         public void NextPlayer()
         {
             clientIndex = ++clientIndex % callbacks.Count;
         }
 
-        // Uses the client callback objects to send current Shoe information 
-        // to clients. If the change in teh Shoe state was triggered by a method call 
-        // from a specific client, then that particular client will be excluded from
-        // the update since it will already be updated directly by the call.
+        // Uses the client callback objects to send current RideTheBus information 
         private void updateAllClients()
         {
             CallbackInfo info = new CallbackInfo(cards.Count - cardIdx, CurrentCard, LastCard, DiscardedCard, callbacks.Keys.ElementAt(clientIndex), winstreak, gameOver);

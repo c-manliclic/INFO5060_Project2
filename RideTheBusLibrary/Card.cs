@@ -1,6 +1,6 @@
 ﻿/* Programmers: Colin Manliclic, Zina Long
  * Date:        April 9, 2021
- * Purpose:
+ * Purpose:     Card class to be used when playing RideTheBus. Used to compare other cards in the game and represent a deck.
  */
 using System;
 using System.Runtime.Serialization; 

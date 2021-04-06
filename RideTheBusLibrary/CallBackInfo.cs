@@ -1,6 +1,8 @@
 ﻿/* Programmers: Colin Manliclic, Zina Long
  * Date:        April 9, 2021
- * Purpose:
+ * Purpose:     The CallbackInfo class represents a WCF data contract for sending
+ *              realtime updates to connected clients regarding changes to the 
+ *              state of the RideTheBus (service object).
  */
 using System;
 using System.Collections.Generic;
