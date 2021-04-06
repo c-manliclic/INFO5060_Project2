@@ -148,17 +148,20 @@ namespace RideTheBusLibrary
                 callbacks.Remove(id);
 
                 // Make sure the counting sequence isn't disrupted by removing this client
-                if (i == clientIndex)
+                if (i == clientIndex && callbacks.Count != 0)
+                {
                     // This client was supposed to count next but is exiting the game
                     // Need to signal the next client to count instead 
+                    NextPlayer();
                     updateAllClients();
+                } 
                 else if (clientIndex > i)
+                {
                     // This prevents a player from being "skipped over" in the turn-taking
                     // of this "game"
                     clientIndex--;
+                }
             }
-            NextPlayer();
-            updateAllClients();
         }
 
         public void PlayBlackRed(Card current, string color)
