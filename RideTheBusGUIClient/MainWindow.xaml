@@ -22,10 +22,8 @@
         <Label x:Name="Label_WinStreakScore" Content="Winstreak Content" HorizontalAlignment="Left" Margin="607,326,0,0" VerticalAlignment="Top"/>
         <Label x:Name="Label_Question" Content="Question" HorizontalAlignment="Left" Margin="10,326,0,0" VerticalAlignment="Top" RenderTransformOrigin="-3.259,0.5" FontWeight="Bold"/>
         <Label x:Name="Label_QuestionText" Content="Question Content" HorizontalAlignment="Left" Margin="87,326,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="Label_LastRank" Content="" HorizontalAlignment="Left" Margin="101,109,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="Label_LastSuit" Content="" HorizontalAlignment="Left" Margin="101,157,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="Label_CurrentRank" Content="" HorizontalAlignment="Left" Margin="310,109,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="Label_CurrentSuit" Content="" HorizontalAlignment="Left" Margin="310,157,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Label_LastCardText" Content="" HorizontalAlignment="Left" Margin="101,109,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Label_CurrentCardText" Content="" HorizontalAlignment="Left" Margin="310,109,0,0" VerticalAlignment="Top"/>
         <Button x:Name="Button_RuleBook" Content="Rule Book" HorizontalAlignment="Left" Margin="640,10,0,0" VerticalAlignment="Top" Width="75" Click="Button_RuleBook_Click"/>
         <Label x:Name="Label_PlayerNum" Content="Player" HorizontalAlignment="Left" Margin="28,12,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
         <Label x:Name="Label_Status" Content="Status" HorizontalAlignment="Left" Margin="28,38,0,0" VerticalAlignment="Top"/>
