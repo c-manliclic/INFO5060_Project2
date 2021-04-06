@@ -90,7 +90,6 @@ namespace RideTheBusLibrary
             CurrentCard = card;
 
             NextPlayer();
-            updateAllClients();
 
             return card;
         }
@@ -310,7 +309,7 @@ namespace RideTheBusLibrary
         /*------------------------- Helper methods -------------------------*/
         private void Populate()
         {
-            // For each deck in numDecks...
+            //For each deck in numDecks...
             for (int d = 0; d < 1; ++d)
                 // For each suit..
                 foreach (SuitID s in Enum.GetValues(typeof(SuitID)))
