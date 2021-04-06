@@ -66,10 +66,9 @@ namespace RideTheBusLibrary
         // Returns a copy of the next Card in the cards collection
         public Card Draw()
         {
-            if (cardIdx >= cards.Count)
+            if (cardIdx + 1 >= cards.Count)
             {
                 gameOver = true;
-                return null;
             }
             
             if(CurrentCard != null)

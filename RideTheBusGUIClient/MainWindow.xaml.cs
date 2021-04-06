@@ -260,7 +260,7 @@ namespace RideTheBusGUIClient
                     MessageBox.Show("You Won!", "Game Over");
                 }
 
-                if (gameOver && info.NumCards == 0)
+                if (gameOver && info.NumCards == 0 && int.Parse(Label_WinStreakScore.Content.ToString()) != 4)
                 {
                     DisableAllButtons();
                     MessageBox.Show("You Lose!", "Game Over");
