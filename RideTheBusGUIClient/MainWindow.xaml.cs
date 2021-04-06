@@ -18,7 +18,8 @@ namespace RideTheBusGUIClient
         Card currentCard;
         Card lastCard;
         Card discardedCard;
-        private static int clientId, activeClientId = 0;
+        private static int clientId = 0;
+        private static int activeClientId = 1;
         //private static CBObject cbObj = new CBObject();
         private static EventWaitHandle waitHandle = new EventWaitHandle(false, EventResetMode.ManualReset);
         private static bool gameOver = false;
@@ -30,8 +31,9 @@ namespace RideTheBusGUIClient
             DuplexChannelFactory<IRideTheBus> channel = new DuplexChannelFactory<IRideTheBus>(this, "BusEndPoint");
             bus = channel.CreateChannel();
 
-            bus.JoinGame();
+            clientId = bus.JoinGame();
 
+            Label_PlayerNum.Content = $"Player {clientId}";
             Label_CardsLeft.Content = bus.NumCards.ToString();
             Label_WinStreakScore.Content = bus.Winstreak.ToString();
         }
@@ -155,10 +157,13 @@ namespace RideTheBusGUIClient
                 // Update gui
                 Label_CardsLeft.Content = info.NumCards.ToString();
 
-                currentCard = info.CurrentCard;
-                Label_CurrentRank.Content = currentCard.Rank;
-                Label_CurrentSuit.Content = currentCard.Suit;
-
+                if (info.CurrentCard != null)
+                {
+                    currentCard = info.CurrentCard;
+                    Label_CurrentRank.Content = currentCard.Rank;
+                    Label_CurrentSuit.Content = currentCard.Suit;
+                }
+         
                 if (info.LastCard != null)
                 {
                     lastCard = info.LastCard;
@@ -169,31 +174,54 @@ namespace RideTheBusGUIClient
                 Label_WinStreakScore.Content = info.WinStreak.ToString();
                 gameOver = info.GameOver;
 
+                // Active player 
+                activeClientId = info.NextClient;
+
+                // Player 1 always starts
+                if (activeClientId == clientId)
+                {
+                    Label_Status.Content = $"Your turn";
+            
+                }
+                else
+                {
+                    Label_Status.Content = $"Player #{activeClientId}'s turn";
+                }
+
                 string choice;
                 switch(info.WinStreak)
                 {
                     case 0:
                         DisableAllButtons();
-                        Button_Black.IsEnabled = true;
-                        Button_Red.IsEnabled = true;
+                        if(activeClientId == clientId)
+                        {
+                            Button_Black.IsEnabled = true;
+                            Button_Red.IsEnabled = true;
+                        }
                         Label_QuestionText.Content = "Will the next card be Black or Red?";
-                        if (lastCard != null)
+                        if (currentCard != null)
                             Label_Update.Content = "You guessed incorrect! Restarting to Black or Red game.";
                         break;
                     case 1:
                         DisableAllButtons();
                         choice = (currentCard.Suit == SuitID.Hearts || currentCard.Suit == SuitID.Diamonds) ? "red" : "black";
                         Label_Update.Content = $"You guessed correct! {currentCard.Rank} of {currentCard.Suit} is {choice}";
-                        Button_High.IsEnabled = true;
-                        Button_Low.IsEnabled = true;
+                        if (activeClientId == clientId)
+                        {
+                            Button_High.IsEnabled = true;
+                            Button_Low.IsEnabled = true;
+                        }
                         Label_QuestionText.Content = $"Will the next card be higher or lower than the {currentCard.Rank}?";
                         break;
                     case 2:
                         DisableAllButtons();
                         choice = (lastCard.Rank < currentCard.Rank) ? "higher" : "lower";
                         Label_Update.Content = $"You guessed correct! {lastCard.Rank} was {choice} or equal to {currentCard.Rank}";
-                        Button_In.IsEnabled = true;
-                        Button_Out.IsEnabled = true;
+                        if (activeClientId == clientId)
+                        {
+                            Button_In.IsEnabled = true;
+                            Button_Out.IsEnabled = true;
+                        }
                         Label_QuestionText.Content = $"Will the next card be inside(inclusive) or outside the {lastCard.Rank} and {currentCard.Rank}?";
                         break;
                     case 3:
@@ -212,8 +240,11 @@ namespace RideTheBusGUIClient
                         }
                         choice = (currentCard.Rank <= lower.Rank && currentCard.Rank >= higher.Rank) ? "inside" : "outside";
                         Label_Update.Content = $"You guessed correct! {currentCard.Rank} was {choice} {lower.Rank} and {higher.Rank}";
-                        Button_Face.IsEnabled = true;
-                        Button_NotFace.IsEnabled = true;
+                        if (activeClientId == clientId)
+                        {
+                            Button_Face.IsEnabled = true;
+                            Button_NotFace.IsEnabled = true;
+                        }
                         Label_QuestionText.Content = "Will the next card be a face(Jack, Queen, King) card or not?";
                         break;
                     case 4:
@@ -251,6 +282,11 @@ namespace RideTheBusGUIClient
             Button_Out.IsEnabled = false;
             Button_Face.IsEnabled = false;
             Button_NotFace.IsEnabled = false;
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            bus?.LeaveGame();
         }
     }
 }

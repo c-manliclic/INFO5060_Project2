@@ -79,6 +79,8 @@ namespace RideTheBusLibrary
 
             Card card = cards[cardIdx++];
             CurrentCard = card;
+
+            NextPlayer();
             updateAllClients();
 
             return card;
@@ -118,7 +120,12 @@ namespace RideTheBusLibrary
 
             // Register this client and return a new client id
             callbacks.Add(nextClientId, cb);
-            //updateAllClients();
+
+            // Only client connected so far so release this client to do the first "count"
+            // (necessary because a callback will only happen when a "count" is performed 
+            // and a callback is the mechanism used to release a client)
+            updateAllClients();
+       
             return nextClientId++;
         }
 
@@ -150,6 +157,8 @@ namespace RideTheBusLibrary
                     // of this "game"
                     clientIndex--;
             }
+            NextPlayer();
+            updateAllClients();
         }
 
         public void PlayBlackRed(Card current, string color)
@@ -303,14 +312,11 @@ namespace RideTheBusLibrary
 
             // Reset the cards index
             cardIdx = 0;
-
-            updateAllClients();
         }
 
         public void NextPlayer()
         {
             clientIndex = ++clientIndex % callbacks.Count;
-            updateAllClients();
         }
 
         // Uses the client callback objects to send current Shoe information 
@@ -319,15 +325,10 @@ namespace RideTheBusLibrary
         // the update since it will already be updated directly by the call.
         private void updateAllClients()
         {
-            // Prepare the CallbackInfo parameter
-            if (callbacks.Count != 0)
-            {
-                CallbackInfo info = new CallbackInfo(cards.Count - cardIdx, CurrentCard, LastCard, callbacks.Keys.ElementAt(clientIndex), winstreak, gameOver);
+            CallbackInfo info = new CallbackInfo(cards.Count - cardIdx, CurrentCard, LastCard, callbacks.Keys.ElementAt(clientIndex), winstreak, gameOver);
 
-                foreach (ICallback cb in callbacks.Values)
-                    cb.UpdateClient(info);
-            }
-   
+            foreach (ICallback cb in callbacks.Values)
+                cb.UpdateClient(info);
         }
 
     }
