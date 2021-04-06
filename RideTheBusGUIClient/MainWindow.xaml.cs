@@ -48,107 +48,49 @@ namespace RideTheBusGUIClient
 
         private void Button_Black_Click(object sender, RoutedEventArgs e)
         {
-            if (lastCard!= null)
-            {
-                discardedCard = lastCard;
-            }
-            if (currentCard != null)
-            {
-                lastCard = currentCard;
-                Label_LastRank.Content = lastCard.Rank.ToString();
-                Label_LastSuit.Content = lastCard.Suit.ToString();
-            }
-            currentCard = bus.Draw();
+            DrawAndUpdateLabels();
             bus.PlayBlackRed(currentCard, "black");
-            Label_CurrentRank.Content = currentCard.Rank.ToString();
-            Label_CurrentSuit.Content = currentCard.Suit.ToString();
         }
 
         private void Button_Red_Click(object sender, RoutedEventArgs e)
         {
-            if (lastCard != null)
-            {
-                discardedCard = lastCard;
-            }
-            if (currentCard != null)
-            {
-                lastCard = currentCard;
-                Label_LastRank.Content = lastCard.Rank.ToString();
-                Label_LastSuit.Content = lastCard.Suit.ToString();
-            }
-            currentCard = bus.Draw();
+            DrawAndUpdateLabels();
             bus.PlayBlackRed(currentCard, "red");
-            Label_CurrentRank.Content = currentCard.Rank.ToString();
-            Label_CurrentSuit.Content = currentCard.Suit.ToString();
         }
 
         private void Button_High_Click(object sender, RoutedEventArgs e)
         {
-            discardedCard = lastCard;
-            lastCard = currentCard;
-            Label_LastRank.Content = lastCard.Rank.ToString();
-            Label_LastSuit.Content = lastCard.Suit.ToString();
-            currentCard = bus.Draw();
-            Label_CurrentRank.Content = currentCard.Rank.ToString();
-            Label_CurrentSuit.Content = currentCard.Suit.ToString();
+            DrawAndUpdateLabels();
             bus.PlayHighLow(currentCard,lastCard,"high");
         }
 
         private void Button_Low_Click(object sender, RoutedEventArgs e)
         {
-            discardedCard = lastCard;
-            lastCard = currentCard;
-            Label_LastRank.Content = lastCard.Rank.ToString();
-            Label_LastSuit.Content = lastCard.Suit.ToString();
-            currentCard = bus.Draw();
-            Label_CurrentRank.Content = currentCard.Rank.ToString();
-            Label_CurrentSuit.Content = currentCard.Suit.ToString();
+            DrawAndUpdateLabels();
             bus.PlayHighLow(currentCard, lastCard, "low");
         }
 
         private void Button_In_Click(object sender, RoutedEventArgs e)
         {
-            discardedCard = lastCard;
-            lastCard = currentCard;
-            Label_LastRank.Content = lastCard.Rank.ToString();
-            Label_LastSuit.Content = lastCard.Suit.ToString();
-            currentCard = bus.Draw();
-            Label_CurrentRank.Content = currentCard.Rank.ToString();
-            Label_CurrentSuit.Content = currentCard.Suit.ToString();
+            DrawAndUpdateLabels();
             bus.PlayInOut(currentCard, lastCard, discardedCard, "in");
         }
 
         private void Button_Out_Click(object sender, RoutedEventArgs e)
         {
-            discardedCard = lastCard;
-            lastCard = currentCard;
-            Label_LastRank.Content = lastCard.Rank.ToString();
-            Label_LastSuit.Content = lastCard.Suit.ToString();
-            currentCard = bus.Draw();
-            Label_CurrentRank.Content = currentCard.Rank.ToString();
-            Label_CurrentSuit.Content = currentCard.Suit.ToString();
+            DrawAndUpdateLabels();
             bus.PlayInOut(currentCard, lastCard, discardedCard, "out");
         }
 
         private void Button_Face_Click(object sender, RoutedEventArgs e)
         {
-            lastCard = currentCard;
-            Label_LastRank.Content = lastCard.Rank.ToString();
-            Label_LastSuit.Content = lastCard.Suit.ToString();
-            currentCard = bus.Draw();
-            Label_CurrentRank.Content = currentCard.Rank.ToString();
-            Label_CurrentSuit.Content = currentCard.Suit.ToString();
+            DrawAndUpdateLabels();
             bus.PlayFaceNotFace(currentCard, "face");
         }
 
         private void Button_NotFace_Click(object sender, RoutedEventArgs e)
         {
-            lastCard = currentCard;
-            Label_LastRank.Content = lastCard.Rank.ToString();
-            Label_LastSuit.Content = lastCard.Suit.ToString();
-            currentCard = bus.Draw();
-            Label_CurrentRank.Content = currentCard.Rank.ToString();
-            Label_CurrentSuit.Content = currentCard.Suit.ToString();
+            DrawAndUpdateLabels();
             bus.PlayFaceNotFace(currentCard, "notface");
         }
 
@@ -164,15 +106,13 @@ namespace RideTheBusGUIClient
                 if (info.CurrentCard != null)
                 {
                     currentCard = info.CurrentCard;
-                    Label_CurrentRank.Content = currentCard.Rank;
-                    Label_CurrentSuit.Content = currentCard.Suit;
+                    Label_CurrentCardText.Content = $"{currentCard.Rank} of {currentCard.Suit}";
                 }
          
                 if (info.LastCard != null)
                 {
                     lastCard = info.LastCard;
-                    Label_LastRank.Content = lastCard.Rank;
-                    Label_LastSuit.Content = lastCard.Suit;
+                    Label_LastCardText.Content = $"{lastCard.Rank} of {lastCard.Suit}";
                 }
 
                 if (info.DiscardedCard != null)
@@ -289,6 +229,21 @@ namespace RideTheBusGUIClient
             {
                 this.Dispatcher.BeginInvoke(new ClientUpdateDelegate(UpdateClient), info);
             }
+        }
+
+        private void DrawAndUpdateLabels()
+        {
+            if (lastCard != null)
+            {
+                discardedCard = lastCard;
+            }
+            if (currentCard != null)
+            {
+                lastCard = currentCard;
+                Label_LastCardText.Content = $"{lastCard.Rank} of {lastCard.Suit}";
+            }
+            currentCard = bus.Draw();
+            Label_CurrentCardText.Content = $"{currentCard.Rank} of {currentCard.Suit}";
         }
 
         private void DisableAllButtons()
