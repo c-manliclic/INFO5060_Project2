@@ -1,4 +1,4 @@
-﻿/* Programmers: Colin Manliclic, Zina Long
+﻿/* Programmers: Tony Haworth
  * Date:        April 9, 2021
  * Purpose:     Card class to be used when playing RideTheBus. Used to compare other cards in the game and represent a deck.
  */
